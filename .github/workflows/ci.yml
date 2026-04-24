@@ -24,6 +24,10 @@ jobs:
         working-directory: frontend
         run: npm install
 
+      - name: Lint frontend
+        working-directory: frontend
+        run: npm run lint
+
       - name: Build frontend
         working-directory: frontend
         run: npm run build
@@ -43,11 +47,13 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: backend
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
 
-      - name: Check backend import
+      - name: Run backend tests
         working-directory: backend
-        run: python -c "from main import app; print('Backend OK')"
+        run: pytest
 
   docker:
     name: Docker Build
@@ -63,3 +69,12 @@ jobs:
 
       - name: Build frontend Docker image
         run: docker build -t mini-frontend ./frontend
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Lint frontend
+        working-directory: frontend
+        run: npm run lint
+
+      - name: Build frontend

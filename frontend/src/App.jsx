@@ -16,7 +16,7 @@ function App() {
       const res = await fetch("http://127.0.0.1:8000/health");
       const data = await res.json();
       setHealth(data.status);
-    } catch (error) {
+    } catch (_error) {
       setHealth("error");
     }
   };
