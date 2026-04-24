@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mini-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mini-backend
+  template:
+    metadata:
+      labels:
+        app: mini-backend
+    spec:
+      containers:
+        - name: mini-backend
+          image: mini-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
