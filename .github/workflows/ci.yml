@@ -55,10 +55,26 @@ jobs:
         working-directory: backend
         run: pytest
 
+  sonar:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: [frontend, backend]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run SonarCloud analysis
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   docker:
     name: Docker Build
     runs-on: ubuntu-latest
-    needs: [frontend, backend]
+    needs: [sonar]
 
     steps:
       - name: Checkout code
